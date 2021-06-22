@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Neon Colors</title>
+	<!-- <link rel="stylesheet" href="style.css"> -->
+	<style>
+		body{
+			background: hsl(0, 0%, 13%);
+			margin: 0;
+		}
+
+		.box {
+			--size: calc(100 / 7 * 1vh);
+			position: relative;
+
+			width: var(--size);
+			height: var(--size);
+			margin: 1rem;
+
+			transition:linear 300ms all;
+
+			cursor: pointer;
+		}
+		.box:hover {
+			background-color: hsl(144, 52%, 88%);
+			box-shadow: 0px 0px 0 hsl(112, 100%, 57%),
+				0px 0px .25rem hsl(115, 100%, 56%),
+				0px 0px .5rem hsl(119, 100%, 55%),
+				0px 0px 1rem hsl(122, 100%, 53%);
+		}
+		.box::after {
+			position: absolute;
+			left: calc(100% + 1rem);
+
+			color: hsl(144, 52%, 88%);
+			font-family: monospace;
+			font-size: large;
+			white-space: nowrap;
+		}
+
+		.color1 {
+			background-color: hsl(112, 100%, 57%);
+		}
+		.color1::after {
+			content: "hsl(112, 100%, 57%);";
+		}
+
+		.color2 {
+			background-color: hsl(115, 100%, 56%);
+		}
+		.color2::after {
+			content: "hsl(115, 100%, 56%);";
+		}
+
+		.color3 {
+			background-color: hsl(119, 100%, 55%);
+		}
+		.color3::after {
+			content: "hsl(119, 100%, 55%);";
+		}
+
+		.color4 {
+			background-color: hsl(122, 100%, 53%);
+		}
+		.color4::after {
+			content: "hsl(122, 100%, 53%);";
+		}
+	</style>
+</head>
+<body>
+	<div class="box color1"></div>
+	<div class="box color2"></div>
+	<div class="box color3"></div>
+	<div class="box color4"></div>
+</body>
+</html>
