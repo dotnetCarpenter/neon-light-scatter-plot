@@ -31,6 +31,7 @@ const getChart = data => (
   })
 )
 
+//    applyFilters :: Chart -> Chart
 const applyFilters = chart => {
   const filter = (
     chart.svg.append ("filter")
@@ -69,6 +70,7 @@ const applyFilters = chart => {
   return chart
 }
 
+// main
 getData ("driving.csv")
   .then (getChart)
   .then (applyFilters)
