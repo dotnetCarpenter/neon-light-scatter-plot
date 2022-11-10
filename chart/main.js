@@ -7,7 +7,7 @@ const filterId = "drop-shadow"
 
 //    getData  :: a -> Async Array
 const getData = async path => (
-  csv (path, null, d => ({
+  csv (import.meta.env.BASE_URL + path, null, d => ({
     ...d,
     gas: +d.gas,
     miles: +d.miles }))
@@ -69,7 +69,7 @@ const applyFilters = chart => {
   return chart
 }
 
-getData ("/driving.csv")
+getData ("driving.csv")
   .then (getChart)
   .then (applyFilters)
   .then (chart => {

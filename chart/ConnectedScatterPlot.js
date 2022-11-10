@@ -1,16 +1,4 @@
-import {
-	curveCatmullRom,
-	scaleLinear,
-	map,
-	range,
-	nice,
-	extent,
-	axisBottom,
-	axisLeft,
-	line,
-	create,
-	select,
-	easeLinear } from "d3"
+import * as d3 from "d3"
 
 export const ConnectedScatterplot =
 // Copyright 2021 Observable, Inc.
@@ -24,7 +12,7 @@ function ConnectedScatterplot (data, {
   title, // given d in data, returns the label
   orient = () => "top", // given d in data, returns a label orientation (top, right, bottom, left)
   defined, // for gaps in data
-  curve = curveCatmullRom, // curve generator for the line
+  curve = d3.curveCatmullRom, // curve generator for the line
   width = 640, // outer width, in pixels
   height = 400, // outer height, in pixels
   marginTop = 20, // top margin, in pixels
@@ -36,12 +24,12 @@ function ConnectedScatterplot (data, {
   insetRight = inset, // inset the default x-range
   insetBottom = inset, // inset the default y-range
   insetLeft = inset, // inset the default x-range
-  xType = scaleLinear, // type of x-scale
+  xType = d3.scaleLinear, // type of x-scale
   xDomain, // [xmin, xmax]
   xRange = [marginLeft + insetLeft, width - marginRight - insetRight], // [left, right]
   xFormat, // a format specifier string for the x-axis
   xLabel, // a label for the x-axis
-  yType = scaleLinear, // type of y-scale
+  yType = d3.scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
   yRange = [height - marginBottom - insetBottom, marginTop + insetTop], // [bottom, top]
   yFormat, // a format specifier string for the y-axis
@@ -57,32 +45,32 @@ function ConnectedScatterplot (data, {
 	filterName: filterId,
 } = {}) {
   // Compute values.
-  const X = map(data, x);
-  const Y = map(data, y);
-  const T = title == null ? null : map(data, title);
-  const O = map(data, orient);
-  const I = range(X.length);
+  const X = d3.map(data, x);
+  const Y = d3.map(data, y);
+  const T = title == null ? null : d3.map(data, title);
+  const O = d3.map(data, orient);
+  const I = d3.range(X.length);
   if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
-  const D = map(data, defined);
+  const D = d3.map(data, defined);
 
    // Compute default domains.
-  if (xDomain === undefined) xDomain = nice(...extent(X), width / 80);
-  if (yDomain === undefined) yDomain = nice(...extent(Y), height / 50);
+  if (xDomain === undefined) xDomain = d3.nice(...d3.extent(X), width / 80);
+  if (yDomain === undefined) yDomain = d3.nice(...d3.extent(Y), height / 50);
 
   // Construct scales and axes.
   const xScale = xType(xDomain, xRange);
   const yScale = yType(yDomain, yRange);
-  const xAxis = axisBottom(xScale).ticks(width / 80, xFormat);
-  const yAxis = axisLeft(yScale).ticks(height / 50, yFormat);
+  const xAxis = d3.axisBottom(xScale).ticks(width / 80, xFormat);
+  const yAxis = d3.axisLeft(yScale).ticks(height / 50, yFormat);
 
   // Construct the line generator.
-  const lineGen = line()
+  const lineGen = d3.line()
       .curve(curve)
       .defined(i => D[i])
       .x(i => xScale(X[i]))
       .y(i => yScale(Y[i]));
 
-  const svg = create("svg")
+  const svg = d3.create("svg")
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
@@ -148,7 +136,7 @@ function ConnectedScatterplot (data, {
   if (T) label.append("text")
       .text(i => T[i])
       .each(function(i) {
-        const t = select(this);
+        const t = d3.select(this);
         switch (O[i]) {
           case "bottom": t.attr("text-anchor", "middle").attr("dy", "1.4em"); break;
           case "left": t.attr("dx", "-0.5em").attr("dy", "0.32em").attr("text-anchor", "end"); break;
@@ -163,7 +151,7 @@ function ConnectedScatterplot (data, {
 
   // Measure the length of the given SVG path string.
   function length(path) {
-    return create("svg:path").attr("d", path).node().getTotalLength();
+    return d3.create("svg:path").attr("d", path).node().getTotalLength();
   }
 
   function animate() {
@@ -175,7 +163,7 @@ function ConnectedScatterplot (data, {
           .attr("stroke-dasharray", `0,${l}`)
         .transition()
           .duration(duration)
-          .ease(easeLinear)
+          .ease(d3.easeLinear)
           .attr("stroke-dasharray", `${l},${l}`);
 
       label
