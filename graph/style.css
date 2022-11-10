@@ -4,8 +4,8 @@
   line-height: 24px;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: #eee;
+  color-scheme: normal;
+  color: hsl(144, 52%, 88%);
   background-color: #1b1e23;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,3 +17,14 @@
 body {
   margin: 0;
 }
+
+/* #neon-line, svg {
+  filter: url(#drop-shadow);
+} */
+
+/* svg {
+  text-shadow: 0px 0px 0 hsl(112, 100%, 57%),
+		0px 0px .25rem hsl(115, 100%, 56%),
+		0px 0px .5rem hsl(119, 100%, 55%),
+		0px 0px 1rem hsl(122, 100%, 53%);
+} */

@@ -39,7 +39,8 @@ function ConnectedScatterplot (data, {
   strokeLinejoin = "round", // stroke line join of line
   halo = "#fff", // halo color for the labels
   haloWidth = 6, // halo width for the labels
-  duration = 0 // intro animation in milliseconds (0 to disable)
+  duration = 0, // intro animation in milliseconds (0 to disable)
+	filterName: filterId,
 } = {}) {
   // Compute values.
   const X = d3.map(data, x);
@@ -107,7 +108,8 @@ function ConnectedScatterplot (data, {
       .attr("stroke-width", strokeWidth)
       .attr("stroke-linejoin", strokeLinejoin)
       .attr("stroke-linecap", strokeLinecap)
-      .attr("d", line(I));
+      .attr("d", line(I))
+			.attr("filter", `url(#${filterId})`);
 
   svg.append("g")
       .attr("fill", fill)
@@ -173,5 +175,5 @@ function ConnectedScatterplot (data, {
 
   animate();
 
-  return Object.assign(svg.node(), {animate});
+  return Object.assign(svg.node(), {animate, svg});
 }

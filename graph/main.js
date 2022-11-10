@@ -3,6 +3,8 @@ import * as d3 from "d3"
 // import * as Plot from "@observablehq/plot"
 import {ConnectedScatterplot} from "./ConnectedScatterPlot.js"
 
+const filterId = "drop-shadow"
+
 const driving = await d3.csv ("/driving.csv", null, d => ({
   ...d,
   gas: +d.gas,
@@ -19,20 +21,44 @@ const graph = ConnectedScatterplot (driving, {
   width: window.innerWidth,
   height: 720,
   duration: 5000, // for the intro animation; 0 to disable
-  stroke: "hsl(144, 52%, 88%)"
+  stroke: "hsl(144, 52%, 88%)",
+  // fill: "hsl(112, 100%, 57%)",
+  filterName: filterId,
+  // halo: "#1b1e23"
 })
 
-// const graph = Plot.plot ({
-//   grid: true,
-//   width: window.innerWidth,
-//   height: window.innerHeight,
-//   x: {label: "Miles driven (per capita per year) →"},
-//   y: {label: "↑ Price of gas (average per gallon, adjusted)"},
-//   marks: [
-//     Plot.line (driving, {x: "miles", y: "gas", curve: "catmull-rom"}),
-//     Plot.dot  (driving, {x: "miles", y: "gas", fill: "currentColor"}),
-//     Plot.text (driving, {filter: d => d.year % 5 === 0, x: "miles", y: "gas", text: "year", dy: -8})
-//   ]
-// })
+const filter = (
+  graph.svg.append ("filter")
+    .attr ("id", filterId)
+    .attr ("color-interpolation-filters", "sRGB")
+)
+
+filter.append ("feDropShadow")
+      .attr ("dx", 0)
+      .attr ("dy", 0)
+      .attr ("stdDeviation", 0.5)
+      .attr ("flood-opacity", 0.5)
+      .attr ("flood-color", "hsl(112, 100%, 57%)")
+
+filter.append ("feDropShadow")
+      .attr ("dx", 0)
+      .attr ("dy", 0)
+      .attr ("stdDeviation", 0.5)
+      .attr ("flood-opacity", 0.5)
+      .attr ("flood-color", "hsl(115, 100%, 56%)")
+
+filter.append ("feDropShadow")
+      .attr ("dx", 0)
+      .attr ("dy", 0)
+      .attr ("stdDeviation", 2)
+      .attr ("flood-opacity", 0.5)
+      .attr ("flood-color", "hsl(119, 100%, 55%)")
+
+filter.append ("feDropShadow")
+      .attr ("dx", 0)
+      .attr ("dy", 0)
+      .attr ("stdDeviation", 4)
+      .attr ("flood-opacity", 0.5)
+      .attr ("flood-color", "hsl(122, 100%, 53%)")
 
 document.querySelector ("#app").append (graph)
