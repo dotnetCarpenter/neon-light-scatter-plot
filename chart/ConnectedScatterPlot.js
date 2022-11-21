@@ -4,7 +4,7 @@ export const ConnectedScatterplot =
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/connected-scatterplot
-// Lightly modified by: dotnetcarpenter
+// Lightly modified by: dotnetcarpenter 2022
 function ConnectedScatterplot (data, {
   x = ([x]) => x, // given d in data, returns the (quantitative) x-value
   y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
