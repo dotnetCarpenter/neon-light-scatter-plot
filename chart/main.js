@@ -14,8 +14,8 @@ const chartConfig = {
   yFormat: ".2f",
   xLabel: "Miles driven (per capita per year) →",
   yLabel: "↑ Price of gas (per gallon, adjusted average $)",
-  width: window.visualViewport.width,
-  height: window.visualViewport.height,
+  width: window.visualViewport.width * window.visualViewport.scale,
+  height: window.visualViewport.height * window.visualViewport.scale,
   duration: 5000, // for the intro animation; 0 to disable
   stroke: "hsl(144, 52%, 88%)",
   filterName: filterId,
@@ -81,4 +81,8 @@ getData ("driving.csv")
     document.querySelector ("#app").append (chart)
     return chart
   })
-  // .then (chart => console.warn (chart.svg))
+  .then (chart => {
+    window.addEventListener ('resize', () => {
+      console.debug (window.visualViewport.scale)
+    })
+  })
