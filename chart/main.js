@@ -89,7 +89,5 @@ getData ("driving.csv")
       chartConfig.height = visualViewport.height * visualViewport.scale
 
       document.querySelector ("#app").replaceChildren (applyFilters (createChart (data)))
-
-      alert (visualViewport.scale)
     })
   })
