@@ -5,6 +5,22 @@ import {ConnectedScatterplot} from "./ConnectedScatterPlot.js"
 //    filterId :: String
 const filterId = "drop-shadow"
 
+//    chartConfig :: ObjMap
+const chartConfig = {
+  x: d => d.miles,
+  y: d => d.gas,
+  title: d => d.year,
+  orient: d => d.side,
+  yFormat: ".2f",
+  xLabel: "Miles driven (per capita per year) →",
+  yLabel: "↑ Price of gas (per gallon, adjusted average $)",
+  width: window.visualViewport.width,
+  height: window.visualViewport.height,
+  duration: 5000, // for the intro animation; 0 to disable
+  stroke: "hsl(144, 52%, 88%)",
+  filterName: filterId,
+}
+
 //    getData  :: a -> Async Array
 const getData = async path => (
   csv (import.meta.env.BASE_URL + path, null, d => ({
@@ -15,20 +31,7 @@ const getData = async path => (
 
 //    getChart :: Object -> Chart
 const getChart = data => (
-  ConnectedScatterplot (data, {
-    x: d => d.miles,
-    y: d => d.gas,
-    title: d => d.year,
-    orient: d => d.side,
-    yFormat: ".2f",
-    xLabel: "Miles driven (per capita per year) →",
-    yLabel: "↑ Price of gas (per gallon, adjusted average $)",
-    width: window.innerWidth,
-    height: 720,
-    duration: 5000, // for the intro animation; 0 to disable
-    stroke: "hsl(144, 52%, 88%)",
-    filterName: filterId,
-  })
+  ConnectedScatterplot (data, chartConfig)
 )
 
 //    applyFilters :: Chart -> Chart
@@ -76,4 +79,6 @@ getData ("driving.csv")
   .then (applyFilters)
   .then (chart => {
     document.querySelector ("#app").append (chart)
+    return chart
   })
+  // .then (chart => console.warn (chart.svg))
