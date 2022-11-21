@@ -177,5 +177,5 @@ function ConnectedScatterplot (data, {
 
   animate();
 
-  return Object.assign(svg.node(), {animate, svg});
+  return Object.assign(svg.node(), {animate, svg, data});
 }

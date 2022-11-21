@@ -5,8 +5,8 @@ import {ConnectedScatterplot} from "./ConnectedScatterPlot.js"
 //    filterId :: String
 const filterId = "drop-shadow"
 
-//    chartConfig :: ObjMap
-const chartConfig = {
+//  chartConfig :: ObjMap
+let chartConfig = {
   x: d => d.miles,
   y: d => d.gas,
   title: d => d.year,
@@ -14,8 +14,8 @@ const chartConfig = {
   yFormat: ".2f",
   xLabel: "Miles driven (per capita per year) →",
   yLabel: "↑ Price of gas (per gallon, adjusted average $)",
-  width: window.visualViewport.width * window.visualViewport.scale,
-  height: window.visualViewport.height * window.visualViewport.scale,
+  width: visualViewport.width * visualViewport.scale,
+  height: visualViewport.height * visualViewport.scale,
   duration: 5000, // for the intro animation; 0 to disable
   stroke: "hsl(144, 52%, 88%)",
   filterName: filterId,
@@ -29,8 +29,8 @@ const getData = async path => (
     miles: +d.miles }))
 )
 
-//    getChart :: Object -> Chart
-const getChart = data => (
+//    createChart :: Object -> Chart
+const createChart = data => (
   ConnectedScatterplot (data, chartConfig)
 )
 
@@ -38,8 +38,8 @@ const getChart = data => (
 const applyFilters = chart => {
   const filter = (
     chart.svg.append ("filter")
-      .attr ("id", filterId)
-      .attr ("color-interpolation-filters", "sRGB")
+        .attr ("id", filterId)
+        .attr ("color-interpolation-filters", "sRGB")
   )
 
   filter.append ("feDropShadow")
@@ -73,16 +73,23 @@ const applyFilters = chart => {
   return chart
 }
 
+// const update =
+
 // main
 getData ("driving.csv")
-  .then (getChart)
+  .then (createChart)
   .then (applyFilters)
   .then (chart => {
     document.querySelector ("#app").append (chart)
     return chart
   })
-  .then (chart => {
+  .then (({data}) => {
     window.addEventListener ('resize', () => {
-      console.debug (window.visualViewport.scale)
+      chartConfig.width  = visualViewport.width * visualViewport.scale
+      chartConfig.height = visualViewport.height * visualViewport.scale
+
+      document.querySelector ("#app").replaceChildren (applyFilters (createChart (data)))
+
+      alert (visualViewport.scale)
     })
   })
