@@ -14,8 +14,12 @@ let chartConfig = {
   yFormat: ".2f",
   xLabel: "Miles driven (per capita per year) →",
   yLabel: "↑ Price of gas (per gallon, adjusted average $)",
-  width: visualViewport.width * visualViewport.scale,
-  height: visualViewport.height * visualViewport.scale,
+  marginTop: 20,    // top margin, in pixels
+  marginRight: 20,  // right margin, in pixels
+  marginBottom: 30, // bottom margin, in pixels
+  marginLeft: 30,   // left margin, in pixels
+  width: (visualViewport.width - 50) * visualViewport.scale,
+  height: (visualViewport.height - 50) * visualViewport.scale,
   duration: 5000, // for the intro animation; 0 to disable
   stroke: "hsl(144, 52%, 88%)",
   filterName: filterId,
